@@ -1,0 +1,15 @@
+[Unit]
+Description=OpenSSL OCSP Responder
+After=network.target
+
+[Service]
+Type=simple
+User=ocsp-user
+Group=ocsp-group
+WorkingDirectory=/home/pogo/myca
+ExecStart=/usr/bin/openssl ocsp -index /home/pogo/myca/index.txt -port 2560 -rsigner /home/pogo/myca/certs/ocsp.crt -rkey /home/pogo/myca/private/ocsp.key -CA /home/pogo/myca/certs/ca.crt -text -out /var/log/ocsp-responder.log
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
